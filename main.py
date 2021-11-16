@@ -1,4 +1,5 @@
 from urllib import parse
+from http.cookies import SimpleCookie
 
 
 def parse_parameters(query: str) -> dict:
@@ -7,7 +8,12 @@ def parse_parameters(query: str) -> dict:
 
 
 def parse_cookies(query: str) -> dict:
-    return {}
+    cookie = SimpleCookie()
+    cookie.load(query)
+    cookies = {}
+    for key, morsel in cookie.items():
+        cookies[key] = morsel.value
+    return cookies
 
 
 if __name__ == '__main__':
@@ -26,6 +32,7 @@ if __name__ == '__main__':
                                                                                                   'color': 'purple'}
     except AssertionError:
         print('AssertionError in the fifth test for parse_parameters!')
+
     # Tests for function "parse_cookies"
-    # assert parse_cookies('') == {}
-    # assert parse_cookies('name=Dima;') == {'name': 'Dima'}
+    assert parse_cookies('') == {}
+    assert parse_cookies('name=Dima;') == {'name': 'Dima'}
