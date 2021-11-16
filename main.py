@@ -36,3 +36,12 @@ if __name__ == '__main__':
     # Tests for function "parse_cookies"
     assert parse_cookies('') == {}
     assert parse_cookies('name=Dima;') == {'name': 'Dima'}
+    assert parse_cookies('name=Dima;id=007') == {'name': 'Dima', 'id': '007'}
+    try:
+        assert parse_cookies('name==Dima') == {'name': 'Dima'}
+    except AssertionError:
+        print('AssertionError in the fourth test for parse_cookies!')
+    try:
+        assert parse_cookies('name=Dima') == {'name': 'dima'}
+    except AssertionError:
+        print('AssertionError in the fifth test for parse_cookies!')
